@@ -411,7 +411,7 @@ function postData(form) {
     //Отправляем данные на сервер
     request.send(json);
 
-    console.log(json)
+    console.log(json);
     //{"name":"test","phone":"123"}
 
     request.addEventListener('load', () => {
