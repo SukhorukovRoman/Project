@@ -1,6 +1,6 @@
 <?php 
     //Все то, что приходит от пользователя мы декодируем
-    $_POST = json_decode(file_get_contents("php://input"), true);
+   // $_POST = json_decode(file_get_contents("php://input"), true);
     
     echo var_dump($_POST);
     //Берем данные пришедшие с сервера путем POST, превращает в строку и показывает нам обратно на Клиента

@@ -393,37 +393,39 @@ function postData(form) {
     //Изменим место вставки нашего кружка закгрузки во всех окнах
     form.insertAdjacentElement('afterend', statusMessage);
 
-    var request = new XMLHttpRequest();
-    request.open('POST', 'server.php');
-    request.setRequestHeader('Content-type', 'application/json');
+
+
     // Для сбора всех данных с формы изпользуем метод FormData (для этого в форме обязательно должны быть указана атрибуты name у инпутов)
     var formData = new FormData(form);
 
-    //Создадим объект для перебора всех элементов formData
-    var object = {};
-    formData.forEach(function(value, key){
-      object[key] = value;
-    });
+    // //Создадим объект для перебора всех элементов formData
+    // var object = {};
+    // formData.forEach(function(value, key){
+    //   object[key] = value;
+    // });
 
-    //Преобразуем получившийся объект в JSON
-    var json = JSON.stringify(object);
+    // //Преобразуем получившийся объект в JSON
+    // var json = JSON.stringify(object);
     
-    //Отправляем данные на сервер
-    request.send(json);
-
-    console.log(json);
-    //{"name":"test","phone":"123"}
-
-    request.addEventListener('load', () => {
-      if (request.status === 200) {
-        console.log(request.response);
+    
+    fetch('server.php', {
+      method: "POST",
+      // headers: {
+      //   'Content-type': 'application/json'
+      // },
+      body: formData
+      //Чтобы понимать какой ответ приходит от сервера, нам надо его модифицировать
+    }).then(data => data.text())
+    .then(data => {
+        console.log(data);
         //Вызываем наше динамическое модальное окно которое закроется через 4 сек
         showThanksModal(message.success);
         form.reset();//Очищаем форму
         statusMessage.remove();
-      } else {
+    }).catch(() => {
         showThanksModal(message.failure);
-      }
+    }).finally(() => {
+      form.reset();//Очищаем форму
     });
 
   });
